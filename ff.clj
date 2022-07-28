@@ -30,18 +30,21 @@
                                    ]))
 
 (defn update-events-compact [events-compact event]
-  (->
-   ;; this updates the event ticker for the current events date
-   (update-in events-compact [(:host (uri (:moz_places/url event)))
-                              (shared/date-to-key (t/instant (/ (:moz_historyvisits/visit_date event) 1000)))
-                              ]
-              #(if (nil? %) 1 (inc %)))
-   ;; this updates the "total" ticker for the current event
-   (update-in  [(:host (uri (:moz_places/url event)))
-                "total"
-                              ]
-              #(if (nil? %) 1 (inc %)))
-   )
+  (let [host (str/replace-first (:host (uri (:moz_places/url event))) #"www\." "") ;;truncate hosts a bit, for stats www.x.com is the same as x.com
+        ]
+    (->
+     ;; this updates the event ticker for the current events date
+     
+     (update-in events-compact [host
+                                (shared/date-to-key (t/instant (/ (:moz_historyvisits/visit_date event) 1000)))
+                                ]
+                #(if (nil? %) 1 (inc %)))
+     ;; this updates the "total" ticker for the current event
+     (update-in  [host
+                  "total"
+                  ]
+                 #(if (nil? %) 1 (inc %)))
+     ))
              )
   
 
