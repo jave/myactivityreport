@@ -1,0 +1,28 @@
+.vdate { writing-mode: vertical-rl; text-orientation: sideways; }
+
+.data-cell {
+}
+
+.data-cell td {
+    background-color: #ebedf0;
+}
+
+.data-cell td[level="0"] {
+    background-color: #ebedf0;
+}
+
+.data-cell td[level="1"] {
+    background-color: #c6e48b;
+}
+
+.data-cell td[level="2"] {
+    background-color: #7bc96f;
+}
+
+.data-cell td[level="3"] {
+    background-color: #196127;
+}
+
+.data-cell td[level="4"] {
+    background-color: #106020;
+}

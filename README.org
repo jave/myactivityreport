@@ -1,0 +1,3 @@
+* activity report
+the idea is to make a personal activity report, like for instance
+gitlabs contribution graph, or emacs habit graph.
