@@ -12,8 +12,10 @@
 (ns fsw2
   (:require [clojure.string :as str]
             [shared]
-            [java-time :as t])
-  (:use clojure.java.io))
+            [java-time :as t]
+            [clojure.java.io :as io])
+  ;;(:use clojure.java.io)
+  )
 
 (println "fileing... ")
 ;; working on my plans for instance, looks like:
@@ -51,6 +53,11 @@
 (defn validline [event]
   (if (or (nil? event)(nil? (first event))) nil event))
 
+(defn validfile [event]
+  (if (or (nil? event) (not (.exists (io/file (second event))))  ) nil event))
+  
+
+
 (defn dotfile-or-tmpfile-event? [event]
   (if (or (nil? event)(re-find #"/\.|/tmp" (second event) )) nil event)
   )
@@ -69,9 +76,11 @@
                               (nth event 2) ))
   )
 
+
 (defn line-to-event [line]
    (->> (parseline line)
         (validline)
+        (validfile)
         (dotfile-or-tmpfile-event?)
         (syncbind-workaround)
         (truncate-event-filenames)
@@ -99,7 +108,7 @@
       )))
 
 (def fsw-events
-  (sort-by #(get  (second %) "total") > (reduce update-events-compact {}  (take-last 10000000  (line-seq (reader "filesystemwatch.log"))) )))
+  (sort-by #(get  (second %) "total") > (reduce update-events-compact {}  (take-last 10000000  (line-seq (io/reader "filesystemwatch.log"))) )))
 
 
 (shared/write-reports "filewatch-report" fsw-events)
