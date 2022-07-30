@@ -59,7 +59,7 @@
 
 
 (defn dotfile-or-tmpfile-event? [event]
-  (if (or (nil? event)(re-find #"/\.|/tmp" (second event) )) nil event)
+  (if (or (nil? event)(re-find #"/\.|/tmp/" (second event) )) nil event)
   )
 
 (defn syncbind-workaround [event]
