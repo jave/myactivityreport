@@ -59,5 +59,15 @@
     )
   )
 
+;; try adding advice around org-habit-insert-consistency-graphs
+;; so it writes t a new buffer, then remove advice afterwards
+
+;; (advice-add 'org-habit-parse-todo :around #'jv-org-habit-parse-todo)
+;; (defun jv-org-habit-parse-todo (orig-fn &rest args)
+;;   (let ((org-done-keywords '("DONE")))
+;;     (apply orig-fn args))
+;; )
+;; call the graph generator
+;; remove advice
 
 ;;; myhabits.el ends here

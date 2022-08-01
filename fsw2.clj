@@ -108,7 +108,7 @@
       )))
 
 (def fsw-events
-  (sort-by #(get  (second %) "total") > (reduce update-events-compact {}  (take-last 10000000  (line-seq (io/reader "filesystemwatch.log"))) )))
+  (reduce update-events-compact {}  (take-last 10000000  (line-seq (io/reader "filesystemwatch.log")))))
 
 
 (shared/write-reports "filewatch-report" fsw-events)

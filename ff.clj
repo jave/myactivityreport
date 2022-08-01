@@ -1,13 +1,11 @@
 #!/bin/bash
 #_(
    #_You can put other options here
-   OPTS='
-   -J-Xms256m -J-Xmx256m -J-client
-   '
-   . settings.sh
-   echo exec clojure $OPTS "$0" "$@"
+   OPTS='-J-Xms256m -J-Xmx256m -J-client'
+   . settings.mk   
    exec clojure $OPTS "$0" "$@"
    )
+
 (ns ff
   (:require [next.jdbc :as jdbc]
             [lambdaisland.uri :refer [uri join]]
@@ -45,12 +43,24 @@
                   ]
                  #(if (nil? %) 1 (inc %)))
      ))
-             )
-  
+  )
+
+
+;; (defn update-events-compact-classify [events-compact event]   )
+;; you can only do this on the unsorted thing
+;;  (assoc-in (reduce update-events-compact {} events-raw) ["en.j5create.com" "test"] 2)
+
+;;(def info '(["mangadex.org" ("manga" "timewaste")] ["reaperscans.com" ("manga" "timewaste")] ))
+;; seems to work:
+;; (reduce #(assoc-in %1 [(first %2) "tags"] (second %2) ) events-compact '(["mangadex.org" ("manga" "timewaste")] ["reaperscans.com" ("manga" "timewaste")] ) )
+
 
 (def events-compact
-  (sort-by #(get  (second %) "total") > 
-           (reduce update-events-compact {} events-raw)))
+  (let [e1   (reduce update-events-compact {} events-raw)
+        e2    (reduce #(assoc-in %1 [(first %2) "tags"] (second %2) ) e1
+                      (clojure.edn/read-string(slurp "ff-tags.edn")))
+        ]
+    e2))
 
 
 

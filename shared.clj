@@ -82,14 +82,17 @@
 
 ;; count backwards 30 days and render
 (defn render [label label-events]
-  (str (subs (format "%-40s " label) 0 40) ":"
+  (str (subs (format "%-40s " label) 0 40) "|"
        (clojure.string/join
         (map
          #(daterender % label-events)
          (datelist) ))
        ;;label-events ;; for occasional debug
+       "|"
        " total: "
        (get  label-events "total")
+       " tags: "
+       (get  label-events "tags")
 ;;       label-events
        )  )
 
@@ -100,13 +103,15 @@
                                 #(daterender-td % label-events)
                                 (datelist) ))])  )
 
-(defn write-reports [reportname events-compact]
+(defn write-reports [reportname events-compact-in]
   (let [txtreport (str "out/" reportname ".txt")
-        htmlreport (str "out/" reportname ".html")]
-    (spit txtreport (str/join (map #(str (shared/render (first %) (second %)) "\n") events-compact)))
+        htmlreport (str "out/" reportname ".html")
+        events-sorted (sort-by #(get  (second %) "total") > events-compact-in  )
+        ]
+    (spit txtreport (str/join (map #(str (shared/render (first %) (second %)) "\n") events-sorted)))
     (println "wrote " txtreport)
     
-    (spit htmlreport (str/join (map #(str (shared/render-tr (first %) (second %)) "\n") events-compact)))
+    (spit htmlreport (str/join (map #(str (shared/render-tr (first %) (second %)) "\n") events-sorted)))
     (println "wrote " htmlreport))
 
   )
