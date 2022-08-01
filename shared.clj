@@ -101,7 +101,11 @@
          
          (clojure.string/join  (map
                                 #(daterender-td % label-events)
-                                (datelist) ))])  )
+                                (datelist) ))
+         [:td "total:"        (get  label-events "total")]
+         [:td "tags:"        (get  label-events "tags")]
+
+         ])  )
 
 (defn write-reports [reportname events-compact-in]
   (let [txtreport (str "out/" reportname ".txt")
