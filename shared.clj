@@ -77,7 +77,9 @@
           
          (clojure.string/join  (map
                                 #(html [:td {:class "vdate"} (t/format "yyyymmdd" (t/zoned-date-time % (t/zone-id))) ])
-                                (datelist) ))])
+                                (datelist) )
+                               )
+         [:th "total"] [:th "tags"]])
   )
 
 ;; count backwards 30 days and render
@@ -102,15 +104,19 @@
          (clojure.string/join  (map
                                 #(daterender-td % label-events)
                                 (datelist) ))
-         [:td "total:"        (get  label-events "total")]
-         [:td "tags:"        (get  label-events "tags")]
+         [:td  (get  label-events "total")]
+         [:td        (clojure.string/join "," (get  label-events "tags"))]
 
          ])  )
 
 (defn write-reports [reportname events-compact-in]
   (let [txtreport (str "out/" reportname ".txt")
         htmlreport (str "out/" reportname ".html")
-        events-sorted (sort-by #(get  (second %) "total") > events-compact-in  )
+        ;; sort events-compact, by number of tags, then number of events.
+        events-sorted (reverse (sort-by #(vector (count (get  (second %) "tags"))
+                                                 (get  (second %) "total")
+                                                 )          
+                                        events-compact-in))
         ]
     (spit txtreport (str/join (map #(str (shared/render (first %) (second %)) "\n") events-sorted)))
     (println "wrote " txtreport)
