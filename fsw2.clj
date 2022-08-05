@@ -28,13 +28,13 @@
   (t/format "yyyyMMdd" (t/truncate-to
                         (t/zoned-date-time
                          date
-                         (t/zone-id "CET")) :days)))
+                         (t/zone-id "Europe/Stockholm")) :days)))
 
 
 (defn parseline [inline]
   (try 
     (let [line (str/split inline #" \| " )
-          time (try (t/zoned-date-time (first line))
+          time (try (t/zoned-date-time (first line) )
                     (catch Exception e))
           file (try   (second line)
                       (catch Exception e))
