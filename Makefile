@@ -1,7 +1,7 @@
 .ONESHELL:
 
 outfilestxt = out/gitlab-report.txt  out/filewatch-report.txt  out/agenda.txt out/filewatch-report.txt out/ff-report.txt
-outfileshtml =  out/gitlab-report.html  out/dates.html out/agenda.html out/filewatch-report.html out/ff-report.html
+outfileshtml =  out/gitlab-report.html  out/dates.html out/agenda.html out/filewatch-report.html out/ff-report.html out/habit-report.html
 htmlreport =  out/index.html
 include settings.mk
 
@@ -32,6 +32,9 @@ out/dates.html:
 out/agenda.txt out/agenda.html &:
 	./myhabits.el
 
+out/habit-report.txt out/habit-report.html &: out/agenda.txt
+	./myhabit.clj
+
 $(htmlreport): index-head.html  empty.html  index-foot.html $(outfileshtml) style.css
 	cp style.css out
-	cat index-head.html out/dates.html out/gitlab-report.html empty.html out/filewatch-report.html empty.html out/ff-report.html index-foot.html out/agenda.html > $(htmlreport)
+	cat index-head.html out/dates.html out/habit-report.html out/gitlab-report.html empty.html out/filewatch-report.html empty.html out/ff-report.html index-foot.html out/agenda.html > $(htmlreport)
