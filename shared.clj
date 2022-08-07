@@ -76,7 +76,7 @@
   (html [:tr  [:th ""]  
           
          (clojure.string/join  (map
-                                #(html [:td {:class "vdate"} (t/format "yyyymmdd" (t/zoned-date-time % (t/zone-id))) ])
+                                #(html [:td {:class "vdate"} (t/format "yyyy-MM-dd" (t/zoned-date-time % (t/zone-id))) ])
                                 (datelist) )
                                )
          [:th "total"] [:th "tags"]])
