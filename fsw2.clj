@@ -72,7 +72,8 @@
 (defn truncate-event-filenames [event]
   (if (nil? event) nil (list  (first event)
                               ;;(re-find #"^.*/Plans|^.*/art|^.*" (second %))
-                              (first (re-find #"^/home/joakim/roles(/[^/]*)|^/flib(/[^/]*)|^/home/joakim(/[^/]*)|^.*"  (second event)))        ;; truncate filenames a bit, for birds eye view, if no trunc pattern is found return original
+                              ;; truncate filenames a bit, for birds eye view, if no trunc pattern is found return original
+                              (str/replace (first (re-find #"^/home/joakim/roles(/[^/]*)|^/flib(/[^/]*)|^/home/joakim(/[^/]*)|^.*"  (second event))) #"^/home/joakim" "~")
                               (nth event 2) ))
   )
 
