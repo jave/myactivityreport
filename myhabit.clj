@@ -26,7 +26,7 @@
 (defn parse-habit [event]
 
   (let [datelist (map shared/date-to-key (shared/datelist))
-        symlist (str/split (subs event 80 111) #"")
+        symlist (str/split (subs event 81 112) #"")
         label0 (str/split (str/trim (subs event 0 78)) #":")
         tag0 (first label0)
         label (str/trim (str/replace (second label0) #"TODO" ""))
