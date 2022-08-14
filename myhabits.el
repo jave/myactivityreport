@@ -20,19 +20,16 @@
   (package-refresh-contents))
 
 ;; ;; Install and dependencies
+;; this is not ultra-robust for melpa, because melpa might be on a rebuild when package-install happens, and then install might fail
+;; happened during org-ql install
 (message "\n==== Installing depedencies ====")
 (package-install 'htmlize)
-;; (require 'org-id)
-;; (require 'ox-hugo)
 
-;; ;; Export content from org to Hugo md
-;; (message "\n==== Exporting Hugo markdown ====")
-;; (with-current-buffer (find-file "./Oblog.org") ;; JAVE
-;; (org-hugo-export-wim-to-md :all-subtrees nil :visible-only nil))
 
-;; (message "\n==== Export complete ====")
 (require 'org-habit)
 (require 'htmlize)
+(require 'parseedn)
+(require 'org-ql)
 (setq org-agenda-span 'day)
 (setq org-habit-graph-column 80)
 (setq org-habit-preceding-days 30)
@@ -68,13 +65,12 @@
     (beginning-of-line)
     (if (not (get-text-property (point) 'org-habit-p))
         (progn 
-               (kill-line)
-	       (kill-line))
+          (kill-line)
+	  (kill-line))
       (forward-line 1)))
   (write-region (point-min) (point-max) "out/agenda.txt")
   (with-current-buffer (htmlize-buffer)
     (write-region (point-min) (point-max) "out/agenda.html")
     ))
-
 
 ;;; myhabits.el ends here

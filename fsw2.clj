@@ -58,13 +58,14 @@
   
 
 
-(defn dotfile-or-tmpfile-event? [event]
-  (if (or (nil? event)(re-find #"/\.|/tmp/" (second event) )) nil event)
+(defn ignore-event? [event]
+  ;; this should be loaded from edn file
+  (if (or (nil? event)(re-find #"/\.|/tmp/|navidrome.db|/home/joakim/go" (second event) )) nil event)
   )
 
 (defn syncbind-workaround [event]
   (if (nil? event) nil 
-      (list  (first event)
+      (list  (first event)                          
              (str/replace (second event) "/syncbind/" "/roles/" ) ;; workaround for a syncthing bindmount i have
              (nth event 2) ))
   )
@@ -72,6 +73,7 @@
 (defn truncate-event-filenames [event]
   (if (nil? event) nil (list  (first event)
                               ;;(re-find #"^.*/Plans|^.*/art|^.*" (second %))
+                              ;; these are "roots" and should be in a edn file
                               ;; truncate filenames a bit, for birds eye view, if no trunc pattern is found return original
                               (str/replace (first (re-find #"^/home/joakim/roles(/[^/]*)|^/flib(/[^/]*)|^/home/joakim(/[^/]*)|^.*"  (second event))) #"^/home/joakim" "~")
                               (nth event 2) ))
@@ -82,7 +84,7 @@
    (->> (parseline line)
         (validline)
         (validfile)
-        (dotfile-or-tmpfile-event?)
+        (ignore-event?)
         (syncbind-workaround)
         (truncate-event-filenames)
         ))

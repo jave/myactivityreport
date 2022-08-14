@@ -1,7 +1,7 @@
 .ONESHELL:
 
-outfilestxt = out/gitlab-report.txt  out/filewatch-report.txt  out/agenda.txt out/filewatch-report.txt out/ff-report.txt
-outfileshtml =  out/gitlab-report.html  out/dates.html out/agenda.html out/filewatch-report.html out/ff-report.html out/habit-report.html
+outfilestxt = out/gitlab-report.txt  out/filewatch-report.txt  out/agenda.txt out/filewatch-report.txt out/ff-report.txt out/nudges-report.txt
+outfileshtml =  out/gitlab-report.html  out/dates.html out/agenda.html out/filewatch-report.html out/ff-report.html out/habit-report.html out/nudges-report.html
 htmlreport-temp =  out/index-temp.html
 htmlreport =  out/index.html
 include settings.mk
@@ -30,15 +30,21 @@ out/ff-report.txt out/ff-report.html &: ff.clj
 out/dates.html: dates.clj
 	./dates.clj
 
-out/agenda.txt out/agenda.html &: myhabits.el
+out/agenda.txt out/agenda.html  &: myhabits.el
 	./myhabits.el
+
+out/nudges.edn : nudges.el
+	./nudges.el
+
+out/nudges-report.txt out/nudges-report.html &: out/nudges.edn nudges.clj
+	./nudges.clj
 
 out/habit-report.txt out/habit-report.html &: out/agenda.txt myhabit.clj
 	./myhabit.clj
 
 $(htmlreport-temp): index-head.html  empty.html  index-foot.html $(outfileshtml) style.css
 	cp style.css out
-	cat index-head.html out/dates.html out/habit-report.html out/gitlab-report.html empty.html out/filewatch-report.html empty.html out/ff-report.html index-foot.html out/agenda.html > $(htmlreport-temp)
+	cat index-head.html out/dates.html out/habit-report.html out/nudges-report.html out/gitlab-report.html empty.html out/filewatch-report.html empty.html out/ff-report.html index-foot.html out/agenda.html > $(htmlreport-temp)
 
 $(htmlreport): $(htmlreport-temp)
 	cp $(htmlreport-temp) $(htmlreport)
