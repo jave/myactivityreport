@@ -10,7 +10,7 @@ include settings.mk
 
 all: report $(htmlreport)
 clean:
-	rm -f $(outfilestxt) $(outfileshtml) $(htmlreport-temp)
+	rm -f $(outfilestxt) $(outfileshtml) $(htmlreport-temp) out/nudges.edn
 
 
 report:   $(outfilestxt)
@@ -44,7 +44,8 @@ out/habit-report.txt out/habit-report.html &: out/agenda.txt myhabit.clj
 
 $(htmlreport-temp): index-head.html  empty.html  index-foot.html $(outfileshtml) style.css
 	cp style.css out
-	cat index-head.html out/dates.html out/habit-report.html out/nudges-report.html out/gitlab-report.html empty.html out/filewatch-report.html empty.html out/ff-report.html index-foot.html out/agenda.html > $(htmlreport-temp)
+	cp sorta.js out
+	cat index-head.html out/dates.html tbody-head.html out/habit-report.html out/nudges-report.html out/gitlab-report.html empty.html out/filewatch-report.html empty.html out/ff-report.html index-foot.html  > $(htmlreport-temp)
 
 $(htmlreport): $(htmlreport-temp)
 	cp $(htmlreport-temp) $(htmlreport)
@@ -56,3 +57,4 @@ loop:
 	make clean all
 	sleep 10m
 	done
+

@@ -73,13 +73,13 @@
   )
 
 (defn render-tr-dates []
-  (html [:tr  [:th (t/format "yyyy-MM-dd HH:mm" (t/local-date-time))]  
-          
-         (clojure.string/join  (map
-                                #(html [:td {:class "vdate"} (t/format "yyyy-MM-dd" (t/zoned-date-time % (t/zone-id))) ])
-                                (datelist) )
-                               )
-         [:th "total"] [:th "tags"]])
+  (html [:thead [:tr  [:th (t/format "yyyy-MM-dd HH:mm" (t/local-date-time))]  
+                  
+                  (clojure.string/join  (map
+                                         #(html [:td {:class "vdate"} (t/format "yyyy-MM-dd" (t/zoned-date-time % (t/zone-id))) ])
+                                         (datelist) )
+                                        )
+                  [:th "total"] [:th "tags"]]])
   )
 
 ;; count backwards 30 days and render

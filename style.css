@@ -26,3 +26,8 @@
 .data-cell td[level="4"] {
     background-color: #106020;
 }
+
+th {
+    background-color: #eeffee;
+    text-align: right;
+}
