@@ -87,11 +87,16 @@
           (org-agenda-switch-to)
           (org-narrow-to-subtree)
           (let ((heading (substring-no-properties (org-get-heading t t t t) ;; atm i only want the heading, no tags etc, maybe later
-))
+                                                  ))
+                (tags (org-get-tags))
                 (nudge-dates (find-nudge-dates)))
             ;; (message "heading:%s" heading)
             ;; (message "dates: %s" nudge-dates)
-            (puthash heading nudge-dates events))
+            ;;(puthash heading nudge-dates events)
+            ;;(puthash heading (puthash "tags" '("demotag" "othertag") (make-hash-table :test 'equal)) events)
+            (puthash "tags" tags nudge-dates)
+            (puthash heading nudge-dates  events)
+            )  
           )
         
         (forward-line 1))
