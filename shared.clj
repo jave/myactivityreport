@@ -112,12 +112,16 @@
 (defn write-reports [reportname events-compact-in]
   (let [txtreport (str "out/" reportname ".txt")
         htmlreport (str "out/" reportname ".html")
+        ednfile (str "out/" reportname ".edn")
         ;; sort events-compact, by number of tags, then number of events.
         events-sorted (reverse (sort-by #(vector (count (get  (second %) "tags"))
                                                  (get  (second %) "total")
                                                  )          
                                         events-compact-in))
         ]
+    (spit ednfile (pr-str events-compact-in))
+    (println "wrote " ednfile)
+
     (spit txtreport (str/join (map #(str (shared/render (first %) (second %)) "\n") events-sorted)))
     (println "wrote " txtreport)
     
