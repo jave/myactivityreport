@@ -50,6 +50,9 @@ $(htmlreport-temp): index-head.html  empty.html  index-foot.html $(outfileshtml)
 $(htmlreport): $(htmlreport-temp)
 	cp $(htmlreport-temp) $(htmlreport)
 
+total:
+	./total.clj
+	cat index-head.html out/dates.html out/total-report.html index-foot.html > out/total.html
 loop:
 	while true; do
 	echo start
