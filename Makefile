@@ -8,7 +8,7 @@ include settings.mk
 
 
 
-all: report $(htmlreport)
+all: report $(htmlreport) total
 clean:
 	rm -f $(outfilestxt) $(outfileshtml) $(htmlreport-temp) out/nudges.edn
 

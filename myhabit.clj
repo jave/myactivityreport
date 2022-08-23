@@ -32,9 +32,11 @@
         label (str/trim (str/replace (second label0) #"TODO" ""))
         tags (remove #(= "" %) (conj (str/split (str/trim (subs event 112 )) #":") tag0))
         hashmapwithnils (into {} (map #(hash-map %1 (if (= %2 "*") 1) ) datelist symlist))
+        
         date-events (reduce-kv (fn [new-map k v] (if (not (nil? v)) (assoc new-map k v) new-map)) {} hashmapwithnils)
+        total (count date-events)
         ]
-    (list label (assoc date-events "tags" tags) )))
+    (list label (assoc date-events "tags" tags "total" total) )))
 
 
 ;;(parse-habit   "TransHumanism:      TODO nudge                                                ******************************!                                                                            :nudge::0day:")
