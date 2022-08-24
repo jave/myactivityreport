@@ -55,9 +55,10 @@ total:
 	cat index-head.html out/dates.html out/total-report.html index-foot.html > out/total.html
 loop:
 	while true; do
-	echo start
+	echo "start!"
 	date
 	make clean all
+	echo "done!"
 	sleep 10m
 	done
 

@@ -95,6 +95,7 @@
             ;;(puthash heading nudge-dates events)
             ;;(puthash heading (puthash "tags" '("demotag" "othertag") (make-hash-table :test 'equal)) events)
             (puthash "tags" tags nudge-dates)
+            (puthash "total"  (hash-table-count nudge-dates) nudge-dates)
             (puthash heading nudge-dates  events)
             )  
           )
