@@ -30,10 +30,15 @@
 
 
 (defn update-events-compact [events-compact event]
-  (update-in events-compact
-             ["gitlab-events" ;; 
-              (shared/date-to-key (.getCreatedAt event))]
-          #(if (nil? %) 1 (inc %))))
+  (-> (update-in events-compact
+                 ["gitlab-events" ;; 
+                  (shared/date-to-key (.getCreatedAt event))]
+                 #(if (nil? %) 1 (inc %)))
+      (update-in  ["gitlab-events"
+                   "total"
+                   ]
+                  #(if (nil? %) 1 (inc %))))
+)
 
 
 
