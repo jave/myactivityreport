@@ -57,9 +57,11 @@
         (datehash (make-hash-table  :test 'equal)))
     (while (re-search-forward org-ts-regexp-inactive nil t)
 
-      (puthash (org-format-time-string "%Y%m%d" (org-time-string-to-time (match-string-no-properties 1)))
-               1 ;;one event this day... could be more, but never mind for now
-	    datehash)
+      ;; theres a bug here, time should be > today-30
+      (let ((time (org-time-string-to-time (match-string-no-properties 1))))
+        (puthash (org-format-time-string "%Y%m%d" time)
+                 1 ;;one event this day... could be more, but never mind for now
+	         datehash))
       )
     datehash))
 
