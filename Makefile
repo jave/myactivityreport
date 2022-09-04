@@ -10,7 +10,7 @@ include settings.mk
 
 all: report $(htmlreport) total
 clean:
-	rm -f $(outfilestxt) $(outfileshtml) $(htmlreport-temp) out/nudges.edn
+	find out -type f -and -not -name "style.css" -and -not -name index.html -and -not -name total.html -exec rm '{}' ';'
 
 
 report:   $(outfilestxt)
@@ -51,13 +51,12 @@ $(htmlreport): $(htmlreport-temp)
 	cp $(htmlreport-temp) $(htmlreport)
 
 total:
-	./total.clj
-	cat index-head.html out/dates.html out/total-report.html index-foot.html > out/total.html
+	./total.clj && 	cat index-head.html out/dates.html out/total-report.html index-foot.html > out/total.html
 loop:
 	while true; do
 	echo "start!"
 	date
-	make clean all
+	time make clean all
 	echo "done!"
 	sleep 10m
 	done
