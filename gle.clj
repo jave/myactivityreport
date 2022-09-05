@@ -42,7 +42,7 @@
 
 
 
-(def events-compact (reduce update-events-compact {} events) )
+(def events-compact (assoc-in (reduce update-events-compact {} events) ["gitlab-events" "tags"] ["0day"]))
 
 
 (defn -main [& args]

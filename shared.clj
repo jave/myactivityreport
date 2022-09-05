@@ -109,6 +109,11 @@
 
          ])  )
 
+(defn add-tags-from-file [events tagsfilename]
+  (reduce #(assoc-in %1 [(first %2) "tags"] (second %2) ) events
+          (clojure.edn/read-string(slurp tagsfilename)))
+)
+
 (defn write-reports [reportname events-compact-in]
   (let [txtreport (str "out/" reportname ".txt")
         htmlreport (str "out/" reportname ".html")

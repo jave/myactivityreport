@@ -56,11 +56,8 @@
 
 
 (def events-compact
-  (let [e1   (reduce update-events-compact {} events-raw)
-        e2    (reduce #(assoc-in %1 [(first %2) "tags"] (second %2) ) e1
-                      (clojure.edn/read-string(slurp "ff-tags.edn")))
-        ]
-    e2))
+  (->   (reduce update-events-compact {} events-raw)
+        (shared/add-tags-from-file , "ff-tags.edn" )))
 
 
 
