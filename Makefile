@@ -58,6 +58,6 @@ loop:
 	date
 	time make clean all
 	echo "done!"
+	date
 	sleep 10m
 	done
-	date
