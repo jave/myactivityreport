@@ -79,7 +79,7 @@
                                          #(html [:td {:class "vdate"} (t/format "yyyy-MM-dd" (t/zoned-date-time % (t/zone-id))) ])
                                          (datelist) )
                                         )
-                  [:th "total"] [:th "tags"]]])
+                  [:th "total"] [:th "tags"] [:th "prio"] [:th "class"] [:th "days"]]])
   )
 
 ;; count backwards 30 days and render
@@ -106,6 +106,9 @@
                                 (datelist) ))
          [:td  (get  label-events "total")]
          [:td        (clojure.string/join "," (get  label-events "tags"))]
+         [:td  (get  label-events "prio")]
+         [:td  (get  label-events "class")]
+         [:td  (get  label-events "days")]
 
          ])  )
 
@@ -114,14 +117,41 @@
           (clojure.edn/read-string(slurp tagsfilename)))
 )
 
+(defn add-class [events class]
+  (reduce (fn [out pair]
+            (assoc out (first pair)  (assoc (second pair) "class" class))) 
+          {}
+          events))
+
+(defn calc-prio [tags] (reduce (fn [a b] (+ a (get {"0day" 100 "work" 50} b 0))) 0 tags))
+
+(defn add-prio [events]
+  (reduce (fn [out pair]
+            (assoc out (first pair)  (assoc (second pair) "prio" (calc-prio (get (second pair) "tags" ))))) 
+          {}
+          events))
+
+(defn calc-days [label-properties]
+  (reduce #(+ %1 (if (get label-properties %2) 1 0)) 0  (map date-to-key (datelist)))
+)
+
+(defn add-days [events]
+  (reduce (fn [out pair]
+            (assoc out (first pair)  (assoc (second pair) "days" (calc-days (second pair) )))) 
+          {}
+          events))
+
+
 (defn write-reports [reportname events-compact-in]
   (let [txtreport (str "out/" reportname ".txt")
         htmlreport (str "out/" reportname ".html")
         ednfile (str "out/" reportname ".edn")
         ;; sort events-compact, by number of tags, then number of events.
-        events-sorted (reverse (sort-by #(vector (count (get  (second %) "tags"))
-                                                 (get  (second %) "total")
-                                                 )          
+        events-sorted (reverse (sort-by #(vector 
+                                          (get  (second %) "prio")
+                                          (count (get  (second %) "tags"))
+                                          (get  (second %) "total")
+                                          )          
                                         events-compact-in))
         ]
     (spit ednfile (pr-str events-compact-in))

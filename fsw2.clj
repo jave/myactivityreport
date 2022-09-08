@@ -112,8 +112,10 @@
 
 (def fsw-events
   (-> (reduce update-events-compact {}  (take-last 10000000  (line-seq (io/reader "filesystemwatch.log"))))
-      (shared/add-tags-from-file , "fsw-tags.edn" ))
-  )
+      (shared/add-class , "filesystem")
+      (shared/add-tags-from-file , "fsw-tags.edn" )
+      (shared/add-prio ,)
+      (shared/add-days , )))
 
 
 (shared/write-reports "filewatch-report" fsw-events)

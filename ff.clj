@@ -57,7 +57,10 @@
 
 (def events-compact
   (->   (reduce update-events-compact {} events-raw)
-        (shared/add-tags-from-file , "ff-tags.edn" )))
+        (shared/add-tags-from-file , "ff-tags.edn")
+        (shared/add-class , "web")
+        (shared/add-prio ,)
+        (shared/add-days , )))
 
 
 

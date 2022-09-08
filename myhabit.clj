@@ -41,9 +41,12 @@
 
 ;;(parse-habit   "TransHumanism:      TODO nudge                                                ******************************!                                                                            :nudge::0day:")
 
-(def events-compact (reduce  (fn [a b] (assoc a (first b) (second b)))
-                             {} 
-                             (map parse-habit (line-seq (io/reader "out/agenda.txt")))))
+(def events-compact (-> (reduce  (fn [a b] (assoc a (first b) (second b)))
+                                 {} 
+                                 (map parse-habit (line-seq (io/reader "out/agenda.txt"))))
+                                (shared/add-class , "habit")
+                                (shared/add-prio , )
+                                (shared/add-days , )))
 
 
 (shared/write-reports "habit-report" events-compact)

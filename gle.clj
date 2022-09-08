@@ -42,7 +42,9 @@
 
 
 
-(def events-compact (assoc-in (reduce update-events-compact {} events) ["gitlab-events" "tags"] ["0day"]))
+(def events-compact (-> (assoc-in (reduce update-events-compact {} events) ["gitlab-events" "tags"] ["0day"])
+                        (shared/add-prio ,)
+                        (shared/add-days , )))
 
 
 (defn -main [& args]

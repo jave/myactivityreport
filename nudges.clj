@@ -16,6 +16,10 @@
 
 ;;(spit "out/dates.html" (shared/render-tr-dates))
 
-(def events-compact (clojure.edn/read-string(slurp "out/nudges.edn")))
+(def events-compact 
+  (-> (clojure.edn/read-string(slurp "out/nudges.edn"))
+      (shared/add-class , "nudge")
+      (shared/add-prio ,)
+      (shared/add-days , )))
 
 (shared/write-reports "nudges-report" events-compact)
