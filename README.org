@@ -1,8 +1,14 @@
 * My Activity Report
 
-The idea with this repository is to make a personal activity report,
+The idea with this repository is twofold:
+
+- to make a personal activity report,
 like for instance gitlabs contribution graph, or emacs habit graph,
-but all rolled up into one.
+but all rolled up into one. This is of practical use to me, and I use
+it everyday
+
+- make a practical example of how to use clojure for typical sysadmin
+  duct-tape programs, see below.
 
 ** Using Clojure for duct-tape programs
 The design was intended to try out clojure for typical duct-tape
@@ -13,7 +19,7 @@ complexity. Wouldnt it be nice with a proper language like clojure for
 these kind of things? But still have the flexible shellscript
 approach, and a makefile? So thats essentialy the design. A makefile
 drives the process, which calls out to a bunch of separate clojure
-programs, that are callable as shell scripts, but are clojure.
+programs, that are callable as shell scripts, but are clojure. 
 
 This worked pretty well during the development. Each program did a
 separate tasks, that generated intermediary files. not all programs
@@ -23,6 +29,14 @@ It works well in practice, because its not running interactively, atm
 it runs in a loop every 10 minutes. each run takes around 4 minutes,
 depending on the size of the data being processed. Some of this is
 just jvm startup time.
+
+** why clojure though?
+You might argue that perl/bash/golang/whatever is good enough, or if
+you absolutely want lisp, why not guile/babashka/CL/whatever? Well,
+Clojure is a practical lisp, and theres tons of java libraries you can
+use in Clojure. This is not the case really for guile or babashka. The
+only real drawback of clojure is the slow startup, which can be
+addressed to a degree with aot compiling. 
 
 ** aot compiling
 Its not really all that important that batch processing runs very
