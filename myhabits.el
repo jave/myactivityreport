@@ -55,6 +55,7 @@
   )
 
 (jv-org-agenda-files)
+(message "org-agenda-files:%s" org-agenda-files)
 (org-agenda nil "a")
 
 (read-only-mode nil)
