@@ -58,6 +58,10 @@ loop:
 	date
 	time make clean all
 	echo "done!"
+	echo "LOCAL STUFF"
+	cp .htpasswd out/
+	rsync --recursive --archive out/ /home/joakim/infra/docker/sudoproxy/myactivityreport
+	echo "END LOCAL STUFF"
 	date
 	sleep 10m
 	done

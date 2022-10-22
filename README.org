@@ -1,3 +1,37 @@
-* activity report
-the idea is to make a personal activity report, like for instance
-gitlabs contribution graph, or emacs habit graph.
+* My Activity Report
+
+The idea with this repository is to make a personal activity report,
+like for instance gitlabs contribution graph, or emacs habit graph,
+but all rolled up into one.
+
+** Using Clojure for duct-tape programs
+The design was intended to try out clojure for typical duct-tape
+sysadmin tasks, who normally tend to be a bunch of bash files, a
+makefile, maybe some perl, and so on. This tends to work to a degree,
+but at some point these solutions normally collapse under their own
+complexity. Wouldnt it be nice with a proper language like clojure for
+these kind of things? But still have the flexible shellscript
+approach, and a makefile? So thats essentialy the design. A makefile
+drives the process, which calls out to a bunch of separate clojure
+programs, that are callable as shell scripts, but are clojure.
+
+This worked pretty well during the development. Each program did a
+separate tasks, that generated intermediary files. not all programs
+are clojure, one is elisp, some other parts are bash.
+
+It works well in practice, because its not running interactively, atm
+it runs in a loop every 10 minutes. each run takes around 4 minutes,
+depending on the size of the data being processed. Some of this is
+just jvm startup time.
+
+** aot compiling
+Its not really all that important that batch processing runs very
+quickly, but its also possible to aot compile as an experiment.
+
+To do this, install graal vm, and the native-compilation tool.
+
+when i went from interpretativ mode to aot mode i did this:
+
+- install graalvm and in the tool install native-compilation
+- install   (:gen-class), to namespaces
+- added a aot compilation alias in deps.edn
