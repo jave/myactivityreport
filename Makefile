@@ -8,7 +8,7 @@ include settings.mk
 
 
 
-all: report $(htmlreport) total
+all:  $(htmlreport) total
 clean:
 	find out -type f -and -not -name "style.css" -and -not -name index.html -and -not -name total.html -exec rm '{}' ';'
 
@@ -54,6 +54,7 @@ total:
 	./total.clj && 	cat index-head.html out/dates.html out/total-report.html index-foot.html > out/total.html
 loop:
 	while true; do
+	echo "================================================================"
 	echo "start!"
 	date
 	time make clean all
