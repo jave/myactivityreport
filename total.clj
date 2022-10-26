@@ -23,7 +23,9 @@
 ;;(merge (clojure.edn/read-string (slurp "out/gitlab-report.edn")) (clojure.edn/read-string  (slurp "out/nudges-report.edn")))
 
 
-(let [files (filter #(.endsWith (.getName %) "-report.edn") (file-seq (io/file ".")))
+(let [files (filter #(.endsWith (.getName %) "-report.edn")
+                    (file-seq (io/file "out"));; this is recursive so you need to match the directory
+                    )
       events (reduce #(merge %1 (clojure.edn/read-string (slurp %2))) {} files)]
   (shared/write-reports "total-report" events)
 )
