@@ -49,3 +49,9 @@ when i went from interpretativ mode to aot mode i did this:
 - install graalvm and in the tool install native-compilation
 - install   (:gen-class), to namespaces
 - added a aot compilation alias in deps.edn
+- since aot compilation evals top level forms, i moved some stuff to a
+  main instead of in the top level forms
+- but when moving from toplevel to main, aot failed to recognize some
+  reflections, so these had to be manually added
+
+https://www.graalvm.org/22.0/reference-manual/native-image/Reflection/  
