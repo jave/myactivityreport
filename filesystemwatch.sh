@@ -26,7 +26,8 @@ EXCLUDE+="|/home/joakim/media" # not sure why this pops up
 EXCLUDE+="|Plans/bookmarks" # seems to be written to a lot
 EXCLUDE+="|.autosave.xopp"
 EXCLUDE+="|.vagrant.d" 
-EXCLUDE+="|filesystemwatch.log" # otherwise i guess recursion
+EXCLUDE+="|filesystemwatch" # otherwise i guess recursion
+EXCLUDE+="|myactivityreport" # otherwise i guess recursion
 echo "skipping $EXCLUDE"
 
 # events to listen for
